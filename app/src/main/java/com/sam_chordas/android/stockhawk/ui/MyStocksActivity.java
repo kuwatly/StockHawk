@@ -15,10 +15,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.sam_chordas.android.stockhawk.R;
@@ -86,6 +88,11 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
               @Override public void onItemClick(View v, int position) {
                 //TODO:
                 // do something on item click
+                Intent intent = new Intent(MyStocksActivity.this,DetailsActivity.class);
+                TextView symbol = (TextView) v.findViewById(R.id.stock_symbol);
+                Log.v("Stock Symbol",  symbol.getText().toString());
+                intent.putExtra(getString(R.string.stock_symbol),symbol.getText().toString());
+                startActivity(intent);
               }
             }));
     recyclerView.setAdapter(mCursorAdapter);
