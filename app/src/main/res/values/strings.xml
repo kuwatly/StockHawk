@@ -1,16 +1,36 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
 
-  <string name="action_example">Example action</string>
+  <!--  Used in Action Bar, and in AndroidManifest to tell the device the name of this app. -->
+  <string name="app_name" translatable="false">Stock Hawk</string>
+  <!--
+      By convention, "action" denotes that this String will be used as the label for an Action,
+      typically from the action bar.  The ActionBar is limited real estate, so shorter is better.
+ -->
+  <string name="action_settings" translatable="false">Settings</string>
+  <string name="action_change_units" translatable="false">Change Units</string>
 
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-  <string name="stock_symbol">FB</string>
+  <!-- Strings related to Widgets -->
+  <string name="symbol_search" translatable="true">Symbol Search</string>
+  <string name="content_test" translatable="true">Search for a Stock Symbol</string>
+  <string name="input_hint" translatable="false">FB</string>
+  <string name="input_prefill" translatable="false"></string>
+  <string name="stock_symbol" translatable="false">FB</string>
+
+  <!-- A11y -->
   <string name="a11y_add_stock">Add a new stock to the list</string>
+
+  <!-- Strings related to Notifications -->
+  <string name="connection_error" translatable="true">No connection to the Internet and the displayed quotes are out of date</string>
+  <string name="not_enough_points" translatable="true">Not enough historical data to display the graph</string>
+  <string name="network_toast" translatable="true">Uh-oh! This app requires an internet connection</string>
+  <string name="string_stock_saved" translatable="true">This stock is already saved!</string>
+
+  <!-- Strings related to extras and settings -->
+  <string name="string_tag" translatable="false">tag</string>
+  <string name="string_init" translatable="false">init</string>
+  <string name="string_add" translatable="false">add</string>
+  <string name="string_symbol" translatable="false">symbol</string>
+  <string name="string_periodic" translatable="false">periodic</string>
+
 
 </resources>

@@ -4,12 +4,13 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.db.chart.Tools;
@@ -34,16 +35,17 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     private LineSet mLineSet;
     private int mMinValue;
     private int mMaxValue;
+    private TextView mTextNotEnoughPoints;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_line_graph);
+        mTextNotEnoughPoints = (TextView) findViewById(R.id.text_not_enough_points);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mSymbol = extras.getString(getString(R.string.stock_symbol));
-            Log.v("Got Stock Symbol", mSymbol);
         }
         mChart = (LineChartView) this.findViewById(R.id.linechart);
         mLineSet = new LineSet();
@@ -58,7 +60,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     }
 
     void buildChart() {
-        mLineSet.setColor(Color.parseColor("#758cbb"));
+        mLineSet.setColor(getResources().getColor(R.color.graph_line_color));
 
         // Chart Data
         mChart.addData(mLineSet);
@@ -67,7 +69,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         mChart.setBorderSpacing(Tools.fromDpToPx(15))
                 .setAxisBorderValues(mMinValue, mMaxValue)
                 .setXLabels(AxisRenderer.LabelPosition.NONE)
-                .setLabelsColor(Color.parseColor("#6a84c3"))
+                .setLabelsColor(getResources().getColor(R.color.graph_label_color))
                 .setXAxis(false)
                 .setYAxis(false);
 
@@ -91,12 +93,10 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursor = data;
-        Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(data));
         if (null!=mCursor && mCursor.getCount() > 2) {
-            int pointIndex = 1;
             mMinValue = Integer.MAX_VALUE;
             mMaxValue = Integer.MIN_VALUE;
-            float price = -1;
+            float price;
             for (mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
                 price = Float.parseFloat(mCursor.getString(mCursor.getColumnIndex(QuoteColumns.BIDPRICE)));
                 mLineSet.addPoint("",
@@ -107,9 +107,12 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                     mMinValue = (int) Math.floor(price);
             }
             buildChart();
-        } else
-            Toast.makeText(this, "No historical data to plot",
+        } else {
+            Toast.makeText(this, getString(R.string.not_enough_points),
                     Toast.LENGTH_SHORT).show();
+            mTextNotEnoughPoints.setVisibility(View.VISIBLE);
+            mChart.setVisibility(View.GONE);
+        }
     }
 
     @Override
