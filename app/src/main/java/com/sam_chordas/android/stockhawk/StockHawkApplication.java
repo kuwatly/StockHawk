@@ -17,13 +17,19 @@
 package com.sam_chordas.android.stockhawk;
 
 import android.app.Application;
-import android.test.ApplicationTestCase;
+
+import com.facebook.stetho.Stetho;
 
 /**
- * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
+ * Created by iyadkuwatly on 12/3/16.
  */
-public class ApplicationTest extends ApplicationTestCase<Application> {
-  public ApplicationTest() {
-    super(Application.class);
-  }
+
+public class StockHawkApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (BuildConfig.DEBUG)
+            Stetho.initializeWithDefaults(this);
+
+    }
 }

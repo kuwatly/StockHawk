@@ -1,21 +1,33 @@
+/*
+ * Copyright (C) 2016 Iyad Kuwatly
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.sam_chordas.android.stockhawk.ui;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.db.chart.Tools;
-import com.db.chart.animation.Animation;
-import com.db.chart.animation.easing.BounceEase;
 import com.db.chart.model.LineSet;
 import com.db.chart.renderer.AxisRenderer;
 import com.db.chart.view.LineChartView;
@@ -41,6 +53,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         setContentView(R.layout.activity_line_graph);
         mTextNotEnoughPoints = (TextView) findViewById(R.id.text_not_enough_points);
         Bundle extras = getIntent().getExtras();
@@ -51,12 +64,6 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         mLineSet = new LineSet();
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
 
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
     }
 
     void buildChart() {
@@ -73,10 +80,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 .setXAxis(false)
                 .setYAxis(false);
 
-        // Chart Animation
-        Animation anim = new Animation().setEasing(new BounceEase());
-
-        mChart.show(anim);
+        mChart.show();
 
 
     }
